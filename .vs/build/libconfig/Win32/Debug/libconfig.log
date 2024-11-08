@@ -1,0 +1,6 @@
+﻿  grammar.c
+  libconfig.c
+  scanctx.c
+  scanner.c
+  strbuf.c
+  libconfig.vcxproj -> C:\My Folder\Ragnarok Online\rAthena\.vs\build\libconfig.lib

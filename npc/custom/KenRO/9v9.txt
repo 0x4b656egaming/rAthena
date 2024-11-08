@@ -1,0 +1,318 @@
+// ------------------------------------------------------------------------------------------
+// ------ rAthena Script Release
+// Title: Simple 4 vs 4 PVP Gateway
+// Author: jTynne - justin@justintynne.com
+// Version: 0.1 (Beta)
+// Modification: paopao - escober.paolo@yahoo.com
+// ------------------------------------------------------------------------------------------
+
+turbo_room,107,113,6	script	9v9	94,{
+	if (getgmlevel() >= 99){
+		menu "Menu",standard,"Reset",lend;
+	}
+	
+standard:
+	if ( $@members == 0 && getpartyleader(getcharid(1),2) == getcharid(0)) {
+			mes "Please select number of participants";
+			while ($@members >= 10 || $@members <= 0) {
+				mes "Please input member number from 1-9 only";
+				input $@members;
+			}
+			announce "Number of Participants set on the PVP war : "+$@members+"",bc_yellow|bc_all;	
+			end;
+	}
+	getpartymember(getcharid(1));
+	set @partymembercount,$@partymembercount;
+	if ( $@start == 1 ) {
+		mes "The Sign Ups are currently unavailable because a match is in progress. Don't hesitate to try again in a few minutes!";
+		close;
+	}
+	if ( @partymembercount == $@members ) {
+		if ( $@TeamID1 == getcharid(1) ) {
+			mes "Do you wish to sign out your team?";	
+			next;	
+			if (select("I Give up ~.","Never Say Quit !!")==2) close;	
+			announce "Team 1 : [ " + getpartyname($@TeamID1) + " ] has sign out. We need another Party to sign up now!",bc_yellow|bc_map;	
+			set $@TeamID1, 0;
+			close;	
+		}
+		if ($@TeamID2==getcharid(1)) {	
+			mes "Do you wish to sign out your team?";	
+			next;	
+			if (select("I Give up ~.","Never Say Quit !!")==2) close;
+			announce "Team 2 : [ " + getpartyname($@TeamID2) + " ] has sign out. We need another Party to sign up now!",bc_yellow|bc_map;	
+			set $@TeamID2, 0;	
+			close;	
+		}
+		mes "Hello "+strcharinfo(0)+" what do you want?";
+		if (($@TeamID1!=0) && ($@TeamID2!=0)) {
+			mes "The Sign Ups are currently unavailable because a match is in progress. Don't hesitate to try again in a few minutes!";
+			close;
+		}
+		if ( getpartyleader(getcharid(1),2) != getcharid(0) ) {
+			mes "Only party leader have the right to sign up / out from the game with me..";
+			close;
+		}
+		mes "Choose your team to register.";
+		switch(select("Red Team - [" + getpartyname($@TeamID1) + "] :Blue Team - [" + getpartyname($@TeamID2) + "]")) {
+		case 1:	mes "[  Team War  ]";
+			if ($@TeamID1==0 || getpartyname($@TeamID1)=="null") {
+				getpartymember(getcharid(1)),1;
+				getpartymember(getcharid(1)),2;
+				copyarray $@partymembercidt1[0],$@partymembercid[0],$@members;
+				copyarray $@partymemberaidt1[0],$@partymemberaid[0],$@members;
+				for (set .@i,0; .@i<$@members; set .@i,.@i+1) {
+					if(isloggedin($@partymemberaidt1[.@i],$@partymembercidt1[.@i]))  set .@count,.@count+1;
+				}
+				if(.@count < $@members) {
+					mes "You need all your party members to be online to Register";
+					close;
+				}
+				set $@TeamID1, getcharid(1);	
+				initnpctimer;	
+				mes "Your Party is now subscribed, good luck!";	
+				announce "Team 1 : [ " +getpartyname($@TeamID1)+ " ] has sign up For the Team War!",bc_blue|bc_map;	
+				doevent "9v9::OnSubscriptionTeam";	
+				close;	
+			} else {
+				mes "I'm sorry! Another Team has sign up before you...";	
+				close;	
+			}
+		case 2:	mes "[  Team War  ]";
+			if ($@TeamID2==0 || getpartyname($@TeamID2)=="null") {	
+				getpartymember(getcharid(1)),1;
+				getpartymember(getcharid(1)),2;
+				copyarray $@partymembercidt2[0],$@partymembercid[0],$@members;
+				copyarray $@partymemberaidt2[0],$@partymemberaid[0],$@members;
+				for (set .@i,0; .@i<$@members; set .@i,.@i+1) {
+					if(isloggedin($@partymemberaidt2[.@i],$@partymembercidt2[.@i])) set .@count,.@count+1;
+				}
+				if(.@count < $@members) {
+					mes "You need all your party members to be online to Register";
+					close;
+				}
+				set $@TeamID2, getcharid(1);	
+				initnpctimer;	
+				mes "Your Party is now subscribed, good luck!";	
+				announce "Team 2 : [ " +getpartyname($@TeamID2)+ " ] has sign up For the Team War!",bc_blue|bc_map;
+				doevent "9v9::OnSubscriptionTeam";	
+				close;	
+			} else {	
+				mes "I'm sorry! Another Team has sign up before you...";	
+				close;
+			}
+		}
+	} else {
+		mes "[Event Handler]";
+		mes "Please contact your party leader.";
+		mes "Your team must have a party consisting of "+$@members+" members.";
+		close;
+	}
+
+OnSubscriptionTeam:
+	getpartymember($@TeamID2),1;
+	getpartymember($@TeamID2),2;
+	copyarray $@partymembercidtc2[0],$@partymembercid[0],$@members;
+	copyarray $@partymemberaidc2[0],$@partymemberaid[0],$@members;
+	for (set .@i,0; .@i<$@members; set .@i,.@i+1) {
+		if(isloggedin($@partymemberaidc2[.@i],$@partymembercidtc2[.@i])) set .@countx,.@countx+1;
+	}
+	getpartymember($@TeamID1),1;
+	getpartymember($@TeamID1),2;
+	copyarray $@partymembercidtc1[0],$@partymembercid[0],$@members;
+	copyarray $@partymemberaidc1[0],$@partymemberaid[0],$@members;
+	for (set .@i,0; .@i<$@members; set .@i,.@i+1) {
+		if(isloggedin($@partymemberaidc1[.@i],$@partymembercidtc1[.@i])) set .@countz,.@countz+1;
+	}
+
+	if($@TeamID1!=0 && $@TeamID2!=0){
+		announce "Team War : We have 2 Teams signed up now : "+getpartyname($@TeamID1)+" and "+getpartyname($@TeamID2)+".",bc_blue|bc_map;
+		set @win1, 0;
+		set @win2, 0;
+		copyarray $@twm1[0],$@partymemberaidt1,$@members;
+		copyarray $@twm2[0],$@partymemberaidt2,$@members;
+		goto Onstart;
+	}
+	end;
+
+OnTimer50000:
+	if (($@TeamID1!=0) && ($@TeamID2!=0)) {
+		stopnpctimer;
+		end;
+	}
+	stopnpctimer;
+	set $@TeamID1, 0;
+	set $@TeamID1, 0;
+	announce "Team War : we lack teams to start registration for two teams are now available",0;
+	end;
+	
+OnStart:
+	doevent "refill::OnRefill";
+	warpparty"schg_cas01",154,17,$@TeamID1;
+	warpparty "schg_cas01",87,44,$@TeamID2;
+	setcell "schg_cas01",114,48,125,48,cell_walkable,0;
+	setcell "schg_cas01",86,38,91,38,cell_walkable,0;
+	setcell "schg_cas01",150,23,155,23,cell_walkable,0;
+	setcell "schg_cas01",146,14,146,21,cell_walkable,0;
+	setcell "schg_cas01",94,40,94,45,cell_walkable,0;
+	enablenpc "WALLCAS#26";
+	enablenpc "WALLCAS#27";
+	enablenpc "WALLCAS#28";
+	enablenpc "WALLCAS#29";
+	enablenpc "WALLCAS#30";
+	enablenpc "WALLCAS#31";
+	enablenpc "WALLCAS#32";
+	enablenpc "WALLCAS#33";	
+	enablenpc "WALLCAS#34";
+	enablenpc "WALLCAS#35";
+	enablenpc "WALLCAS#36";
+	enablenpc "WALLCAS#37";
+	enablenpc "WALLCAS#38";
+	enablenpc "WALLCAS#39";
+	sleep (5 * 1000);
+	mapannounce "schg_cas01","You have 10 seconds to buffs.",0;
+       sleep (10 * 1000);
+      	mapannounce "schg_cas01","GO!!!",0;
+	setcell "schg_cas01",146,14,146,21,cell_walkable,1;
+	setcell "schg_cas01",94,40,94,45,cell_walkable,1;
+	disablenpc "WALLCAS#26";
+	disablenpc "WALLCAS#27";
+	disablenpc "WALLCAS#28";
+	disablenpc "WALLCAS#29";
+	disablenpc "WALLCAS#30";
+	disablenpc "WALLCAS#31";
+	disablenpc "WALLCAS#32";
+	disablenpc "WALLCAS#33";	
+	disablenpc "WALLCAS#34";
+	disablenpc "WALLCAS#35";
+	disablenpc "WALLCAS#36";
+	disablenpc "WALLCAS#37";
+	disablenpc "WALLCAS#38";
+	disablenpc "WALLCAS#39";
+	set $@start,1;
+	end;
+
+lend:
+	stopnpctimer;
+	set $@TeamID1,0;
+	set $@TeamID2,0;
+	set $@start,0;
+	set $@twm1,0;
+	set $@twm2,0;
+	set @win1,0;
+	set @win2,0;
+	set @partymembercount,$@members;
+	announce "Thanks for playing",0;
+	set $@members,0;
+	mapwarp "schg_cas01","turbo_room",99,100;
+	end;
+
+OnTimer250000:
+	announce "Team War : No Party won due to time limit!",0;
+	mapwarp "schg_cas01","turbo_room",99,100;
+	goto lend;
+	end;
+
+OnPCDieEvent:
+OnPCLogoutEvent:
+	if(strcharinfo(3) != "schg_cas01") end;
+	warp "turbo_room",99,100;
+	for(set .@i, 0; .@i < $@members; set .@i, .@i + 1) {
+		if ( $@partymembercidt1[.@i] == getcharid(0)) {
+			deletearray $@partymembercidt1[.@i], 1;
+			deletearray $@partymemberaidt1[.@i], 1;
+			if( getarraysize($@partymembercidt1) == 0 ) {
+				set @win2,getarraysize($@partymembercidt2);
+				goto onwin;
+			}
+		}
+		if ( $@partymembercidt2[.@i] == getcharid(0) ) {
+			deletearray $@partymembercidt2[.@i], 1;
+			deletearray $@partymemberaidt2[.@i], 1;
+			if( getarraysize($@partymembercidt2)  == 0 ) {
+				set @win1,getarraysize($@partymembercidt1);
+				goto onwin;
+			}
+		}
+	}
+	end;
+
+onwin:
+	if (@win1==0) {
+		warpparty "turbo_room",99,100,$@TeamID1;
+		warpparty "turbo_room",99,100,$@TeamID2;
+		announce "Team War :"+getpartyname($@TeamID2)+" won",0;
+		detachrid;
+		addrid(2,0,$@TeamID2);
+		goto lend;
+	}
+	if (@win2==0) {
+		warpparty "turbo_room",99,100,$@TeamID1;
+		warpparty "turbo_room",99,100,$@TeamID2;
+		announce "Team War :"+getpartyname($@TeamID1)+" won",0;
+		detachrid;
+		addrid(2,0,$@TeamID1);
+		goto lend;
+	}
+	end;
+	
+OnInit:
+	set $@members,0; // number of party members change this to your party size you want
+	set $@start,0;
+}
+
+-	script	WALLCAS#1	-1,{
+}
+schg_cas01,86,38,0	duplicate(WALLCAS#1)	WALLCAS#2	1905
+schg_cas01,87,38,0	duplicate(WALLCAS#1)	WALLCAS#3	1905
+schg_cas01,88,38,0	duplicate(WALLCAS#1)	WALLCAS#4	1905
+schg_cas01,89,38,0	duplicate(WALLCAS#1)	WALLCAS#5	1905
+schg_cas01,90,38,0	duplicate(WALLCAS#1)	WALLCAS#6	1905
+schg_cas01,91,38,0	duplicate(WALLCAS#1)	WALLCAS#7	1905
+schg_cas01,150,23,0	duplicate(WALLCAS#1)	WALLCAS#8	1905
+
+schg_cas01,151,23,0	duplicate(WALLCAS#1)	WALLCAS#9	1905
+schg_cas01,152,23,0	duplicate(WALLCAS#1)	WALLCAS#10	1905
+schg_cas01,153,23,0	duplicate(WALLCAS#1)	WALLCAS#11	1905
+schg_cas01,154,23,0	duplicate(WALLCAS#1)	WALLCAS#12	1905
+schg_cas01,155,23,0	duplicate(WALLCAS#1)	WALLCAS#13	1905
+schg_cas01,114,48,0	duplicate(WALLCAS#1)	WALLCAS#14	1905
+schg_cas01,115,48,0	duplicate(WALLCAS#1)	WALLCAS#15	1905
+schg_cas01,116,48,0	duplicate(WALLCAS#1)	WALLCAS#16	1905
+schg_cas01,117,48,0	duplicate(WALLCAS#1)	WALLCAS#17	1905
+schg_cas01,118,48,0	duplicate(WALLCAS#1)	WALLCAS#18	1905
+schg_cas01,119,48,0	duplicate(WALLCAS#1)	WALLCAS#19	1905
+schg_cas01,120,48,0	duplicate(WALLCAS#1)	WALLCAS#20	1905
+schg_cas01,121,48,0	duplicate(WALLCAS#1)	WALLCAS#21	1905
+schg_cas01,122,48,0	duplicate(WALLCAS#1)	WALLCAS#22	1905
+schg_cas01,123,48,0	duplicate(WALLCAS#1)	WALLCAS#23	1905
+schg_cas01,124,48,0	duplicate(WALLCAS#1)	WALLCAS#24	1905
+schg_cas01,125,48,0	duplicate(WALLCAS#1)	WALLCAS#25	1905
+
+//	setcell $@mapName$,146,14,146,21,cell_walkable,0;
+//	setcell $@mapName$,94,40,94,45,cell_walkable,0;
+
+schg_cas01,146,14,0	duplicate(WALLCAS#1)	WALLCAS#26	1905
+schg_cas01,146,15,0	duplicate(WALLCAS#1)	WALLCAS#27	1905
+schg_cas01,146,16,0	duplicate(WALLCAS#1)	WALLCAS#28	1905
+schg_cas01,146,17,0	duplicate(WALLCAS#1)	WALLCAS#29	1905
+schg_cas01,146,18,0	duplicate(WALLCAS#1)	WALLCAS#30	1905
+schg_cas01,146,19,0	duplicate(WALLCAS#1)	WALLCAS#31	1905
+schg_cas01,146,20,0	duplicate(WALLCAS#1)	WALLCAS#32	1905
+schg_cas01,146,21,0	duplicate(WALLCAS#1)	WALLCAS#33	1905
+schg_cas01,94,40,0	duplicate(WALLCAS#1)	WALLCAS#34	1905
+schg_cas01,94,41,0	duplicate(WALLCAS#1)	WALLCAS#35	1905
+schg_cas01,94,42,0	duplicate(WALLCAS#1)	WALLCAS#36	1905
+schg_cas01,94,43,0	duplicate(WALLCAS#1)	WALLCAS#37	1905
+schg_cas01,94,44,0	duplicate(WALLCAS#1)	WALLCAS#38	1905
+schg_cas01,94,45,0	duplicate(WALLCAS#1)	WALLCAS#39	1905
+
+schg_cas01	mapflag	nosave	SavePoint
+schg_cas01	mapflag	nomemo
+schg_cas01	mapflag	nobranch
+schg_cas01	mapflag	pvp_noguild
+schg_cas01	mapflag	noicewall
+schg_cas01	mapflag	pvp
+schg_cas01	mapflag	partylock
+schg_cas01	mapflag	gvg_castle
+schg_cas01	mapflag	gvg

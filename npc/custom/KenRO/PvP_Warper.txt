@@ -1,0 +1,26 @@
+//-- PvP Warper
+turbo_room,93,113,4	script	PvP Warper	94,{
+	
+mes "[ ^0065DFPVP Warper^000000 ]";
+mes "Welcome To PVP Warper";
+mes "I Can Help You Warp To PVP Room";
+mes "You Ready?";
+switch(select("PVP ["+getmapusers("pvp_y_1-2")+"/100]:No"))  {	
+case 1:
+	announce ""+ strcharinfo(0) +" Has Entered The PvP Room.",bc_all; //announce and end
+	warp "pvp_y_1-2" ,0,0;
+
+case 2:
+	close;
+	end;
+}
+
+OnInit:
+while (1) {
+delwaitingroom;
+set .@count, getmapusers("pvp_y_1-2");
+waitingroom "PvP Room ["+ .@count + ((.@count==1) ? " User" : " Users") +"]",0;
+sleep 1000;
+}
+}
+//-- PvP Warper

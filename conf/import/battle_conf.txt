@@ -1,0 +1,15 @@
+display_version: no
+dancing_weaponswitch_fix: no
+restart_hp_rate: 100
+restart_sp_rate: 100
+pet_disable_in_gvg: yes
+display_party_name: yes
+change_party_leader_samemap: no
+duel_time_interval: 1
+allow_equip_restricted_item: no
+item_enabled_npc: no
+hide_woe_damage: yes
+snap_dodge: yes
+traps_setting: 0
+gvg_traps_target_all: 0
+min_skill_delay_limit: 500

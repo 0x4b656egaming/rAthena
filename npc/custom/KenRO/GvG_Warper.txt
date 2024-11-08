@@ -1,0 +1,67 @@
+//-- GvG Warper
+turbo_room,64,84,4	script	Team1 Warper	94,{
+
+if (getgmlevel() >= 99) {
+	switch(select("Select Guild:See Current Guild"))
+	{
+		
+		case 1:
+			mes "Please Type in the Guild";
+			mes "-----------------------";
+			mes "Current Guild : "+.GuildName$+"";
+			input .NewGuild$;
+			query_sql("SELECT name FROM guild WHERE name = '"+.NewGuild$+"';",.ResultGuild$);
+			next;
+			if (.ResultGuild$ == "" || .ResultGuild$ == .GuildName$) { mes "Guild Doesn't Exist // Guild Is Already Registered"; close; end;} else {
+					set .GuildName$,.ResultGuild$;
+					mes "Current Guild : "+.GuildName$+"";
+					close;
+			}
+			break;
+		case 2:
+			mes "Current Guild : "+.GuildName$+"";
+			close;
+			break;
+	}
+	
+}
+if (.GuildName$ == strcharinfo(2)) {
+	warp "new_2-3",95,174;
+	end;
+}
+
+}
+
+turbo_room,76,139,4	script	Team2 Warper	94,{
+
+if (getgmlevel() >= 99) {
+	switch(select("Select Guild:See Current Guild"))
+	{
+		
+		case 1:
+			mes "Please Type in the Guild";
+			mes "-----------------------";
+			mes "Current Guild : "+.GuildName$+"";
+			input .NewGuild$;
+			query_sql("SELECT name FROM guild WHERE name = '"+.NewGuild$+"';",.ResultGuild$);
+			next;
+			if (.ResultGuild$ == "" || .ResultGuild$ == .GuildName$) { mes "Guild Doesn't Exist // Guild Is Already Registered"; close; end;} else {
+					set .GuildName$,.ResultGuild$;
+					mes "Current Guild : "+.GuildName$+"";
+					close;
+			}
+			break;
+		case 2:
+			mes "Current Guild : "+.GuildName$+"";
+			close;
+			break;
+	}
+	
+}
+if (.GuildName$ == strcharinfo(2)) {
+	warp "new_2-3",102,21;
+	end;
+}
+
+}
+//-- GvG Warper

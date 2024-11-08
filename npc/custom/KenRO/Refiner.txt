@@ -1,0 +1,15 @@
+//-- Refiner
+turbo_room,86,102,6	script	Insta-Refiner	94,{
+	setarray .@indices[1], EQI_HEAD_TOP, EQI_ARMOR, EQI_HAND_L, EQI_HAND_R, EQI_GARMENT, EQI_SHOES, EQI_HEAD_MID, EQI_HEAD_LOW;
+	for(.@i = 1; .@i<getarraysize(.@indices); ++.@i) {
+		if(getequipisequiped(.@indices[.@i])) {
+			if (.@indices[.@i] == EQI_HAND_R && getequiprefinerycnt(.@indices[.@i]) < 10) {
+				successrefitem .@indices[.@i],10;
+			} else if (getequiprefinerycnt(.@indices[.@i]) < 4) {
+				successrefitem .@indices[.@i],4;
+			}
+		}
+	}
+	end;
+}	
+//-- Refiner

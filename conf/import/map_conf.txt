@@ -1,0 +1,19 @@
+// *************************
+// map_athena config imports
+// *************************
+
+// Server Communication username and password.
+// Account is also used in login database
+userid: cpktnwtvkypqcfiavenjq
+passwd: iavenjqvkypqcfcpktnwt
+
+// Character Server IP
+// The map server connects to the character server using this IP address.
+// NOTE: This is useful when you are running behind a firewall or are on
+// a machine with multiple interfaces.
+char_ip: localhost
+
+// Map Server IP
+// The IP address which clients will use to connect.
+// Set this to what your server's public IP address is.
+map_ip: 172.233.151.119

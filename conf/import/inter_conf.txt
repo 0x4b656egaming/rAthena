@@ -1,0 +1,60 @@
+// ***************************
+// inter_athena config imports
+// ***************************
+
+// For IPs, ideally under linux, you want to use localhost instead of 127.0.0.1
+// Under windows, you want to use 127.0.0.1.  If you see a message like
+// "Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)"
+// and you have localhost, switch it to 127.0.0.1
+
+// server ID is the ID used for logging in to SQL database
+// db is the name of the database created for SQL tables
+
+// MySQL Login server
+login_server_ip: localhost
+login_server_port: 3306
+login_server_id: root
+login_server_pw: (01CPKtnwt0_4pqcfVKY93)
+login_server_db: kenropracticeserver
+login_codepage:
+login_case_sensitive: no
+
+ipban_db_ip: 127.0.0.1
+ipban_db_port: 3306
+ipban_db_id: root
+ipban_db_pw: (01CPKtnwt0_4pqcfVKY93)
+ipban_db_db: kenropracticeserver
+ipban_codepage:
+
+// MySQL Character server
+char_server_ip: localhost
+char_server_port: 3306
+char_server_id: root
+char_server_pw: (01CPKtnwt0_4pqcfVKY93)
+char_server_db: kenropracticeserver
+
+// MySQL Map Server
+map_server_ip: localhost
+map_server_port: 3306
+map_server_id: root
+map_server_pw: (01CPKtnwt0_4pqcfVKY93)
+map_server_db: kenropracticeserver
+
+// MySQL Web Server
+web_server_ip: localhost
+web_server_port: 3306
+web_server_id: root
+web_server_pw: (01CPKtnwt0_4pqcfVKY93)
+web_server_db: kenropracticeserver
+
+// MySQL Log Database
+log_db_ip: localhost
+log_db_port: 3306
+log_db_id: root
+log_db_pw: (01CPKtnwt0_4pqcfVKY93)
+log_db_db: kenropracticeserverlog
+log_codepage:
+log_login_db: loginlog
+
+// Use SQL item_db, mob_db and mob_skill_db for the map server? (yes/no)
+use_sql_db: no

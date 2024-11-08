@@ -1,0 +1,20 @@
+//-- Spectator
+turbo_room,109,113,5	script	Spectator	94,{
+	if (!spectatorset && BaseClass == Job_Novice) {
+		set spectatorset,1;
+		atcommand "@hide";
+		atcommand "@allstats -999";
+		atcommand "@stpoint -999";
+		atcommand "@skpoint -999";
+		atcommand "@storeall";
+		getitem 909,1980;
+		dispbottom "You are now an spectator!";
+		end;
+	}
+	if (getcharid(1) == 0 && BaseClass == Job_Novice) {
+		warp "schg_cas01",121,24;
+	} else {
+		dispbottom "You are in a party. Leave first";
+	}
+}
+//-- Spectator

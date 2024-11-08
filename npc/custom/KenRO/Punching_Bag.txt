@@ -1,0 +1,28 @@
+//-- Punching Bag
+-	script	Punching Bag	-1,{
+
+OnInit:
+
+monster "turbo_room",99,88,"Punching Bag",1905,1,"Punching Bag::OnDummyKill";
+initnpctimer;
+
+setmapflag( "turbo_room",mf_monster_noteleport );
+
+end;
+
+OnDummyKill:
+
+monster "turbo_room",99,88,"Punching Bag",1905,1,"Punching Bag::OnDummyKill";
+
+end;
+
+OnPCAttackEvent:
+	@dps_damage += @damage;
+	end;
+
+OnTimer5000:
+	@dps_damage = 0;
+	npctalk "Punching Bag : I've taken " + (.@dps_damage) + " DPS in last 5 seconds.";
+	end;
+}
+//-- Punching Bag

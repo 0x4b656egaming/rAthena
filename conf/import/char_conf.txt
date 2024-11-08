@@ -1,0 +1,62 @@
+// **************************
+// char_athena config imports
+// **************************
+
+// Server Communication username and password.
+// Account is also used in login database
+userid: cpktnwtvkypqcfiavenjq
+passwd: iavenjqvkypqcfcpktnwt
+
+// Server name, use alternative character such as ASCII 160 for spaces.
+// NOTE: Do not use spaces or any of these characters which are not allowed in
+//       Windows filenames \/:*?"<>|
+//       ... or else guild emblems won't work client-side!
+server_name: KenRO
+
+// Wisp name for server: used to send wisp from server to players (between 4 to 23 characters)
+wisp_server_name: KenRO Practice Server
+
+// Login Server IP
+// The character server connects to the login server using this IP address.
+// NOTE: This is useful when you are running behind a firewall or are on
+// a machine with multiple interfaces.
+login_ip: localhost
+
+// Character Server IP
+// The IP address which clients will use to connect.
+// Set this to what your server's public IP address is.
+char_ip: 172.233.151.119
+
+// Amount of time in seconds by which the character deletion is delayed.
+// Default: 86400 (24 hours)
+// NOTE: Requires client 2010-08-03aragexeRE or newer.
+char_del_delay: 0
+
+//===================================
+// Pincode system
+//===================================
+// NOTE: Requires client 2011-03-09aragexeRE or newer.
+// A window is opened before you can select your character and you will have to enter a pincode by using only your mouse.
+// Default: yes
+pincode_enabled: no
+
+// Starting point for new characters
+// Format: <map_name>,<x>,<y>{:<map_name>,<x>,<y>...}
+// Max number of start points is MAX_STARTPOINT in char.hpp (default 5)
+// Location is randomly picked on character creation.
+// NOTE: For Doram, this requires client 20151001 or newer.
+start_point: iz_int,18,26:iz_int01,18,26:iz_int02,18,26:iz_int03,18,26:iz_int04,18,26
+start_point_pre: turbo_room,100,100
+start_point_doram: lasa_fild01,48,297
+
+// Starting items for new characters
+// Max number of items is MAX_STARTITEM in char.cpp (default 32)
+// Format: <id>,<amount>,<position>{:<id>,<amount>,<position>...}
+// To auto-equip an item, include the position where it will be equipped; otherwise, use zero.
+// NOTE: For Doram, this requires client 20151001 or newer.
+start_items: 1201,1,2:2301,1,16:23484,1,0
+start_items_pre: 1201,1,2:2301,1,16
+start_items_doram: 1681,1,2:2301,1,16
+
+// Starting zeny for new characters
+start_zeny: 1000000
